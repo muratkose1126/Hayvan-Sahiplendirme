@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdoptionRequest extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,4 +20,14 @@ class AdoptionRequest extends Model
         'animal_id',
         'status',
     ];
+
+    public function adopter()
+    {
+        return $this->belongsTo(Adopter::class);
+    }
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\AnimalStatus;
+use App\Enums\GenderType;
 use App\Models\Breed;
 use App\Models\Species;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,17 +25,17 @@ class AnimalFactory extends Factory
         $breeds = Breed::inRandomOrder()->get();
         $breed = $breeds->shift();
         return [
-            "name"=>fake()->monthName(),
-            "species_id"=>$spe ?? Species::factory(),
-            "breed_id"=>$breed ?? Breed::factory(),
-            "color"=>fake()->colorName(),
-            "age"=>fake()->randomDigitNotZero(),
-            "gender"=>fake()->randomElement(["male","female"]),
-            "status"=>fake()->randomElement(["new","pending","published","adopted"]),
-            "desexed"=>fake()->boolean(),
-            "microchip_number"=>fake()->ean13(),
-            "ear_tag_number"=>fake()->ean8(),
-            "description"=>fake()->words(20,true),
+            "name" => fake()->monthName(),
+            "species_id" => $spe ?? Species::factory(),
+            "breed_id" => $breed ?? Breed::factory(),
+            "color" => fake()->colorName(),
+            "age" => fake()->randomDigitNotZero(),
+            "gender" => fake()->randomElement(GenderType::cases()),
+            "status" => fake()->randomElement(AnimalStatus::cases()),
+            "desexed" => fake()->boolean(),
+            "microchip_number" => fake()->ean13(),
+            "ear_tag_number" => fake()->ean8(),
+            "description" => fake()->words(20, true),
         ];
     }
 }

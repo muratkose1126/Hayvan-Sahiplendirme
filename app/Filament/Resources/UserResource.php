@@ -17,7 +17,22 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Users');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('User');
+    }
 
     public static function form(Form $form): Form
     {
@@ -25,19 +40,22 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label(__('Fullname')),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->translateLabel(),
                 Forms\Components\TextInput::make('username')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                    ->maxLength(255)
+                    ->translateLabel(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->translateLabel(),
             ]);
     }
 
@@ -46,26 +64,29 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('Fullname')),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('username')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->translateLabel(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

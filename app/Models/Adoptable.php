@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Adoptable extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -29,4 +30,9 @@ class Adoptable extends Model
     protected $casts = [
         'is_published' => 'boolean',
     ];
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class);
+    }
 }

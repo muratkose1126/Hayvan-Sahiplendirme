@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vaccination extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,4 +21,14 @@ class Vaccination extends Model
         'date',
         'expiration_date',
     ];
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class);
+    }
+
+    public function vaccine()
+    {
+        return $this->belongsTo(Vaccine::class);
+    }
 }

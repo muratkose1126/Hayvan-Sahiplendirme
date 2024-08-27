@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Animal;
 use App\Models\Adopter;
+use App\Enums\AdoptionStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +27,7 @@ class AdoptionRequestFactory extends Factory
         return [
             'adopter_id' => $adopter,
             'animal_id' => $animal,
-            'status'=>fake()->randomElement(["new","pending","reject","complete"]),
+            'status' => fake()->randomElement(AdoptionStatus::cases()),
         ];
     }
 }

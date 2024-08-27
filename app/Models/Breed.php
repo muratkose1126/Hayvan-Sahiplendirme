@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Breed extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,4 +19,15 @@ class Breed extends Model
         'name',
         'species_id'
     ];
+
+    public function species()
+    {
+        return $this->belongsTo(Species::class);
+    }
+
+    public function animals()
+    {
+        return $this->hasMany(Animal::class);
+    }
+
 }

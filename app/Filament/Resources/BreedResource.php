@@ -112,7 +112,7 @@ class BreedResource extends Resource
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
-                SoftDeltingScope::class,
+                SoftDeletingScope::class,
             ]);
     }
 }

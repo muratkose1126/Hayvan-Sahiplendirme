@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('adopter_id')->constrained()->cascadeOnDelete();
             $table->foreignId('animal_id')->constrained()->cascadeOnDelete();
+            $table->date('adoption_date');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,0 +1,86 @@
+{
+    "Users": "Kullanıcılar",
+    "User": "Kullanıcı",
+    "Fullname": "Ad Soyad",
+    "Email": "E-posta",
+    "Username": "Kullanıcı Adı",
+    "Password": "Şifre",
+
+    "Species": "Türler",
+    "S_Species": "Tür",
+
+    "Breeds": "Irklar",
+    "Breed": "Irk",
+
+    "Locations": "Konumlar",
+    "Location": "Konum",
+    "Address": "Adres",
+    "Latitude": "Enlem",
+    "Longitude": "Boylam",
+
+    "Animals": "Hayvanlar",
+    "Animal": "Hayvan",
+    "Name": "Ad",
+    "Gender": "Cinsiyet",
+    "A_Male": "Erkek",
+    "A_Female": "Dişi",
+    "Male": "Erkek",
+    "Female": "Kadın",
+    "Color": "Renk",
+    "Age": "Yaş",
+    "Age min": "Yaş Min",
+    "Age max": "Yaş Max",
+    "Age unit": "Yaş Birimi",
+    "Status": "Durum",
+    "New": "Yeni",
+    "Pending": "Beklemede",
+    "Reject": "Reddedildi",
+    "Complete": "Tamamlandı",
+    "Published": "Yayında",
+    "Desexed": "Kısırlaştırılmış",
+    "Microchip number": "Çip Numarası",
+    "Ear tag number": "Küpe Numarası",
+    "Description": "Açıklama",
+    "Monthly": "Aylık",
+
+
+    "Vaccines": "Aşılar",
+    "Vaccine": "Aşı",
+    "Validity period": "Geçerlilik Süresi",
+
+    "Vaccinations": "Aşılamalar",
+    "Vaccination": "Aşılama",
+    "Date": "Tarih",
+    "Expiration date": "Geçerlilik Tarihi",
+
+    "Adopters": "Sahipleniciler",
+    "Adopter": "Sahiplenici",
+    "Identity number": "Kimlik Numarası",
+    "Birth date": "Doğum Tarihi",
+    "Sex": "Cinsiyet",
+    "Phone": "Telefon",
+
+    "Adopteds": "Sahiplenilenler",
+    "Adopted": "Sahiplenilen",
+    "Adoption date": "Sahiplenme Tarihi",
+
+    "Adoptables": "Sahiplenebilirler",
+    "Adoptable": "Sahiplenebilir",
+    "Publish date": "Yayın Tarihi",
+    "Is published": "Yayında",
+
+    "AdoptionRequests": "Sahiplenme İstekleri",
+    "AdoptionRequest": "Sahiplenme İsteği",
+
+    "Created at": "Oluşturulma Tarihi",
+    "Updated at": "Güncellenme Tarihi",
+    "Deleted at": "Silinme Tarihi",
+
+    "Definitions": "Tanımlar",
+    "Management": "Yönetim",
+    "Animal Management": "Hayvan Yönetimi",
+    "Adopter Management": "Sahiplenici Yönetimi",
+    "Yes": "Evet",
+    "No": "Hayır",
+    "Month": "Ay"
+}

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\SexType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adopter extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,4 +25,13 @@ class Adopter extends Model
         'phone',
         'address',
     ];
+
+    protected $casts = [
+        'sex' => SexType::class,
+    ];
+
+    public function adoptionRequests()
+    {
+        return $this->hasMany(AdoptionRequest::class);
+    }
 }

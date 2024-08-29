@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('species_id')->constrained()->cascadeOnDelete();
             $table->foreignId('breed_id')->constrained()->cascadeOnDelete();
             $table->string('color');
-            $table->string('age');
+            $table->json('age');
             $table->string('gender');
             $table->string('status');
             $table->boolean('desexed');

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\SexType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,7 @@ class AdopterFactory extends Factory
             'identity_number' => fake()->randomNumber(9),
             'birth_date' => fake()->date("Y-m-d", "31-12-2000"),
             'fullname' => fake()->name(),
-            'sex' => fake()->randomElement(["male", "female"]),
+            'sex' => fake()->randomElement(SexType::cases()),
             'email' => fake()->unique()->email(),
             'phone' => fake()->unique()->phoneNumber(),
             'address' => fake()->address(),

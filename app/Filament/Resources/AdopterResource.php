@@ -35,6 +35,16 @@ class AdopterResource extends Resource
         return __('Adopter');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Adopter Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 5;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

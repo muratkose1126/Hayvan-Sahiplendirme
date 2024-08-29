@@ -34,6 +34,16 @@ class AdoptableResource extends Resource
         return __('Adoptable');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Animal Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 4;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -90,7 +100,6 @@ class AdoptableResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

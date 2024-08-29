@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\VaccinationResource\Pages;
 use App\Filament\Resources\VaccinationResource\RelationManagers;
 use App\Models\Vaccination;
+use App\Models\Vaccine;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Carbon\Carbon;
 
 class VaccinationResource extends Resource
 {
@@ -34,6 +36,16 @@ class VaccinationResource extends Resource
         return __('Vaccination');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Animal Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 2;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -49,14 +61,32 @@ class VaccinationResource extends Resource
                     ->required()
                     ->searchable()
                     ->preload()
-                    ->translateLabel(),
+                    ->translateLabel()
+                    ->live()
+                    ->afterStateUpdated(fn (callable $set, callable $get) => self::updateExpirationDate($set, $get)),
                 Forms\Components\DatePicker::make('date')
                     ->required()
-                    ->translateLabel(),
+                    ->translateLabel()
+                    ->live()
+                    ->afterStateUpdated(fn (callable $set, callable $get) => self::updateExpirationDate($set, $get)),
                 Forms\Components\DatePicker::make('expiration_date')
+                    ->readOnly()
                     ->required()
                     ->translateLabel(),
             ]);
+    }
+
+    private static function updateExpirationDate(callable $set, callable $get): void
+    {
+        $vaccineId = $get('vaccine_id');
+        $date = $get('date');
+        if ($vaccineId && $date) {
+            $vaccine = Vaccine::find($vaccineId);
+            if ($vaccine) {
+                $expirationDate = Carbon::parse($date)->addMonths($vaccine->validity_period);
+                $set('expiration_date', $expirationDate->format('Y-m-d'));
+            }
+        }
     }
 
     public static function table(Table $table): Table

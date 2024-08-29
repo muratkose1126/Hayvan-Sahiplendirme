@@ -34,6 +34,16 @@ class UserResource extends Resource
         return __('User');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 11;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

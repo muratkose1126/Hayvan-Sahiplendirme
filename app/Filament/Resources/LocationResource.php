@@ -19,22 +19,32 @@ class LocationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
-    public static function getNavigationLabel(): string
+    public static function getNavigationLabel() : string
     {
         return __('Locations');
     }
 
-    public static function getPluralModelLabel(): string
+    public static function getPluralModelLabel() : string
     {
         return __('Locations');
     }
 
-    public static function getModelLabel(): string
+    public static function getModelLabel() : string
     {
         return __('Location');
     }
 
-    public static function form(Form $form): Form
+    public static function getNavigationGroup() : ?string
+    {
+        return __('Definitions');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 7;
+    }
+
+    public static function form(Form $form) : Form
     {
         return $form
             ->schema([
@@ -57,7 +67,7 @@ class LocationResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Table $table) : Table
     {
         return $table
             ->columns([
@@ -104,14 +114,14 @@ class LocationResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
+    public static function getRelations() : array
     {
         return [
             //
         ];
     }
 
-    public static function getPages(): array
+    public static function getPages() : array
     {
         return [
             'index' => Pages\ListLocations::route('/'),
@@ -120,7 +130,7 @@ class LocationResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getEloquentQuery() : Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([

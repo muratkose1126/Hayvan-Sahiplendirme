@@ -17,5 +17,16 @@ class Adopted extends Model
     protected $fillable = [
         'adopter_id',
         'animal_id',
+        'adoption_date',
     ];
+
+    public function adopter()
+    {
+        return $this->belongsTo(Adopter::class);
+    }
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class);
+    }
 }

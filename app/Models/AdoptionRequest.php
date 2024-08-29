@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\AdoptionStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AdoptionRequest extends Model
 {
@@ -19,6 +20,9 @@ class AdoptionRequest extends Model
         'adopter_id',
         'animal_id',
         'status',
+    ];
+    protected $casts = [
+        'status' => AdoptionStatus::class,
     ];
 
     public function adopter()

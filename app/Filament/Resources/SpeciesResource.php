@@ -45,6 +45,16 @@ class SpeciesResource extends Resource
             ]);
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Definitions');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 9;
+    }
+
     public static function table(Table $table): Table
     {
         return $table

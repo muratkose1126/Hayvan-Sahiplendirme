@@ -37,6 +37,16 @@ class AnimalResource extends Resource
         return __('Animal');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Animal Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
+
     public static function form(Form $form) : Form
     {
         return $form
@@ -50,6 +60,7 @@ class AnimalResource extends Resource
                     ->required()
                     ->translateLabel()
                     ->reactive()
+                    ->native(false)
                     ->afterStateUpdated(fn (callable $set) => $set('breed_id', null)),
                 Forms\Components\Select::make('breed_id')
                     ->relationship('breed', 'name', fn (Builder $query, callable $get) =>
@@ -59,25 +70,46 @@ class AnimalResource extends Resource
                     ->translateLabel()
                     ->searchable()
                     ->preload(),
-                Forms\Components\TextInput::make('color')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Forms\Components\TextInput::make('age')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
                 Forms\Components\Select::make('gender')
                     ->options(GenderType::class)
                     ->required()
+                    ->translateLabel(),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('age.min')
+                            ->required()
+                            ->numeric()
+                            ->label(__('Age min')),
+                        Forms\Components\TextInput::make('age.max')
+                            ->numeric()
+                            ->label(__('Age max')),
+                        Forms\Components\Select::make('age.unit')
+                            ->options([
+                                'age' => __('Age'),
+                                'monthly' => __('Monthly'),
+                            ])
+                            ->required()
+                            ->native(false)
+                            ->label(__('Age unit')),
+                    ])
+                    ->columns(3)
+                    ->columnSpan(1),
+                Forms\Components\TextInput::make('color')
+                    ->required()
+                    ->maxLength(255)
                     ->translateLabel(),
                 Forms\Components\Select::make('status')
                     ->options(AnimalStatus::class)
                     ->required()
                     ->translateLabel(),
-                Forms\Components\Toggle::make('desexed')
-                    ->inline(false)
+                Forms\Components\Radio::make('desexed')
+                    ->options([
+                        1 => __('Yes'),
+                        0 => __('No'),
+                    ])
                     ->required()
+                    ->inline()
+                    ->inlineLabel(false)
                     ->translateLabel(),
                 Forms\Components\TextInput::make('microchip_number')
                     ->required()
@@ -107,13 +139,19 @@ class AnimalResource extends Resource
                 Tables\Columns\TextColumn::make('breed.name')
                     ->sortable()
                     ->translateLabel(),
-                Tables\Columns\TextColumn::make('color')
+                Tables\Columns\TextColumn::make('gender')
                     ->searchable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('age')
+                    ->formatStateUsing(function ($record) {
+                        $min = $record->age['min'];
+                        $max = $record->age['max'] ?? $min;
+                        $unit = __(ucfirst($record->age['unit']));
+                        return $min === $max ? "{$min} {$unit}" : "{$min}-{$max} {$unit}";
+                    })
                     ->searchable()
                     ->translateLabel(),
-                Tables\Columns\TextColumn::make('gender')
+                Tables\Columns\TextColumn::make('color')
                     ->searchable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('status')

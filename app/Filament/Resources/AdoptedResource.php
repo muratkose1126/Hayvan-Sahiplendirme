@@ -34,6 +34,16 @@ class AdoptedResource extends Resource
         return __('Adopted');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Animal Management');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 3;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,7 +55,15 @@ class AdoptedResource extends Resource
                     ->preload()
                     ->translateLabel(),
                 Forms\Components\Select::make('animal_id')
-                    ->relationship('animal', 'name')
+                    ->relationship('animal', 'name', function (Builder $query, $livewire) {
+                        if ($livewire instanceof Pages\CreateAdopted) {
+                            return $query->whereDoesntHave('adopted');
+                        } elseif ($livewire instanceof Pages\EditAdopted) {
+                            return $query->whereDoesntHave('adopted')
+                                ->orWhere('id', $livewire->record->animal_id);
+                        }
+                        return $query;
+                    })
                     ->required()
                     ->searchable()
                     ->preload()
@@ -87,7 +105,6 @@ class AdoptedResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AnimalStatus;
+use App\Enums\GenderType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,6 +31,12 @@ class Animal extends Model
         "description",
     ];
 
+    protected $casts = [
+        'age' => 'array',
+        'gender'=> GenderType::class,
+        'status'=> AnimalStatus::class,
+    ];
+
     public function species()
     {
         return $this->belongsTo(Species::class);
@@ -52,5 +60,10 @@ class Animal extends Model
     public function adoptionRequests()
     {
         return $this->hasMany(AdoptionRequest::class);
+    }
+
+    public function adopted()
+    {
+        return $this->hasMany(Adopted::class);
     }
 }

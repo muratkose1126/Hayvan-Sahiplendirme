@@ -35,6 +35,16 @@ class BreedResource extends Resource
         return __('Breed');
     }
 
+    public static function getNavigationGroup() : ?string
+    {
+        return __('Definitions');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 10;
+    }
+
     public static function form(Form $form) : Form
     {
         return $form

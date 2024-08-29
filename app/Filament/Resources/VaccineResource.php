@@ -19,22 +19,31 @@ class VaccineResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function getNavigationLabel(): string
+    public static function getNavigationLabel() : string
     {
         return __('Vaccines');
     }
 
-    public static function getPluralModelLabel(): string
+    public static function getPluralModelLabel() : string
     {
         return __('Vaccines');
     }
 
-    public static function getModelLabel(): string
+    public static function getModelLabel() : string
     {
         return __('Vaccine');
     }
+    public static function getNavigationGroup() : ?string
+    {
+        return __('Definitions');
+    }
 
-    public static function form(Form $form): Form
+    public static function getNavigationSort() : ?int
+    {
+        return 8;
+    }
+
+    public static function form(Form $form) : Form
     {
         return $form
             ->schema([
@@ -42,29 +51,31 @@ class VaccineResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->translateLabel(),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(1000)
-                    ->translateLabel(),
                 Forms\Components\TextInput::make('validity_period')
                     ->required()
                     ->numeric()
+                    ->placeholder(__('Month'))
+                    ->translateLabel(),
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(1000)
+                    ->columnSpanFull()
                     ->translateLabel(),
             ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Table $table) : Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->translateLabel(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable()
-                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('validity_period')
                     ->numeric()
                     ->sortable()
+                    ->translateLabel(),
+                Tables\Columns\TextColumn::make('description')
+                    ->searchable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -97,14 +108,14 @@ class VaccineResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
+    public static function getRelations() : array
     {
         return [
             //
         ];
     }
 
-    public static function getPages(): array
+    public static function getPages() : array
     {
         return [
             'index' => Pages\ListVaccines::route('/'),
@@ -113,7 +124,7 @@ class VaccineResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getEloquentQuery() : Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([

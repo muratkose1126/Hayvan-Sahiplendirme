@@ -28,6 +28,9 @@
     "Female": "Kadın",
     "Color": "Renk",
     "Age": "Yaş",
+    "Age min": "Yaş Min",
+    "Age max": "Yaş Max",
+    "Age unit": "Yaş Birimi",
     "Status": "Durum",
     "New": "Yeni",
     "Pending": "Beklemede",
@@ -38,6 +41,8 @@
     "Microchip number": "Çip Numarası",
     "Ear tag number": "Küpe Numarası",
     "Description": "Açıklama",
+    "Monthly": "Aylık",
+
 
     "Vaccines": "Aşılar",
     "Vaccine": "Aşı",
@@ -65,10 +70,17 @@
     "Is published": "Yayında",
 
     "AdoptionRequests": "Sahiplenme İstekleri",
-    "AdoptionRequest": "Sahiplenme İsteki",
+    "AdoptionRequest": "Sahiplenme İsteği",
 
     "Created at": "Oluşturulma Tarihi",
     "Updated at": "Güncellenme Tarihi",
-    "Deleted at": "Silinme Tarihi"
+    "Deleted at": "Silinme Tarihi",
 
+    "Definitions": "Tanımlar",
+    "Management": "Yönetim",
+    "Animal Management": "Hayvan Yönetimi",
+    "Adopter Management": "Sahiplenici Yönetimi",
+    "Yes": "Evet",
+    "No": "Hayır",
+    "Month": "Ay"
 }

@@ -16,6 +16,6 @@ Route::view('profile', 'profile')
 
 require __DIR__.'/auth.php';
 
-Route::get('/',Home::class);
-Route::get('/pets',Pets::class);
-Route::get('/pet/{pet}',Pet::class);
+Route::get('/',Home::class)->name('home');
+Route::get('/pets',Pets::class)->name('pets');
+Route::get('/pet/{pet}',Pet::class)->name('pet');

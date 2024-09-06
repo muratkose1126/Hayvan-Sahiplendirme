@@ -2,19 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\GenderType;
-use App\Filament\Resources\AnimalResource\Pages;
-use App\Filament\Resources\AnimalResource\RelationManagers;
-use App\Models\Animal;
-use App\Enums\AnimalStatus;
-use App\Enums\AnimalGender;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Animal;
+use Filament\Forms\Form;
+use App\Enums\GenderType;
 use Filament\Tables\Table;
+use App\Enums\AnimalGender;
+use App\Enums\AnimalStatus;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\AnimalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AnimalResource\RelationManagers;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class AnimalResource extends Resource
 {
@@ -37,12 +38,12 @@ class AnimalResource extends Resource
         return __('Animal');
     }
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup() : ?string
     {
         return __('Animal Management');
     }
 
-    public static function getNavigationSort(): ?int
+    public static function getNavigationSort() : ?int
     {
         return 1;
     }
@@ -123,6 +124,14 @@ class AnimalResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->translateLabel(),
+
+                SpatieMediaLibraryFileUpload::make('images')
+                    ->collection('animals')
+                    ->translateLabel()
+                    ->multiple()
+                    ->required()
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/heic'])
             ]);
     }
 

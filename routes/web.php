@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Home;
+use App\Livewire\Pet;
 use App\Livewire\Pets;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,4 @@ require __DIR__.'/auth.php';
 
 Route::get('/',Home::class);
 Route::get('/pets',Pets::class);
+Route::get('/pet/{pet}',Pet::class);

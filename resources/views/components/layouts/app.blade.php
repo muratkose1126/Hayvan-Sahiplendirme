@@ -16,9 +16,11 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+            @livewire('layout.app-bar')
             <main>
                 {{ $slot }}
             </main>
+            @livewire('layout.footer')
         </div>
     </body>
 </html>

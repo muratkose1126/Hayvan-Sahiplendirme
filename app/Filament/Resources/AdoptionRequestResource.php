@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
 class AdoptionRequestResource extends Resource
 {
@@ -38,7 +39,7 @@ class AdoptionRequestResource extends Resource
 
     public static function getNavigationGroup() : ?string
     {
-        return __('Adopter Management');
+        return __('Personal');
     }
 
     public static function getNavigationSort() : ?int
@@ -90,9 +91,7 @@ class AdoptionRequestResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->translateLabel(),
-                Tables\Columns\SelectColumn::make('status')
-                    ->options(AdoptionStatus::class)
-                    ->searchable()
+                Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -110,7 +109,29 @@ class AdoptionRequestResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::New ),
+                Tables\Actions\Action::make('işlemeAl')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::New )
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Pending;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-document-text'),
+                Tables\Actions\Action::make('onayla')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Complete;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-check'),
+                Tables\Actions\Action::make('reddet')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Reject;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-x-mark'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -118,7 +139,8 @@ class AdoptionRequestResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(null);
     }
 
     public static function getRelations() : array

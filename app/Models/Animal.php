@@ -55,9 +55,9 @@ class Animal extends Model implements HasMedia
         return $this->hasMany(Vaccination::class);
     }
 
-    public function adoptables()
+    public function adoptable()
     {
-        return $this->hasMany(Adoptable::class);
+        return $this->hasOne(Adoptable::class);
     }
 
     public function adoptionRequests()
@@ -67,7 +67,7 @@ class Animal extends Model implements HasMedia
 
     public function adopted()
     {
-        return $this->hasMany(Adopted::class);
+        return $this->hasOne(Adopted::class);
     }
 
     /**
@@ -91,7 +91,7 @@ class Animal extends Model implements HasMedia
      */
     public function getImagesAttribute()
     {
-        return $this->getMedia('animals')->map(function ($media) {
+        return $this->getMedia('animal_image')->sortBy('order_column')->map(function ($media) {
             return [
                 'id' => $media->id,
                 'url' => $media->getUrl(),
@@ -107,7 +107,7 @@ class Animal extends Model implements HasMedia
      */
     public function getFirstImageAttribute()
     {
-        $firstMedia = $this->getFirstMedia('animals');
+        $firstMedia = $this->getFirstMedia('animal_image');
 
         if ($firstMedia) {
             return [
@@ -118,5 +118,19 @@ class Animal extends Model implements HasMedia
         }
 
         return null;
+    }
+    /**
+     * Tüm videoları almak için özel bir metod.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getVideosAttribute()
+    {
+        return $this->getMedia('animal_video')->map(function ($media) {
+            return [
+                'id' => $media->id,
+                'url' => $media->getUrl(),
+            ];
+        });
     }
 }

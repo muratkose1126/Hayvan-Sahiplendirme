@@ -40,7 +40,7 @@ class AnimalResource extends Resource
 
     public static function getNavigationGroup() : ?string
     {
-        return __('Animal Management');
+        return __('Personal');
     }
 
     public static function getNavigationSort() : ?int
@@ -126,12 +126,22 @@ class AnimalResource extends Resource
                     ->translateLabel(),
 
                 SpatieMediaLibraryFileUpload::make('images')
-                    ->collection('animals')
+                    ->collection('animal_image')
                     ->translateLabel()
                     ->multiple()
                     ->required()
-                    ->columnSpanFull()
+                    ->reorderable()
+                    ->appendFiles()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/heic'])
+                    ->panelLayout('grid'),
+
+                SpatieMediaLibraryFileUpload::make('videos')
+                    ->collection('animal_video')
+                    ->translateLabel()
+                    ->multiple()
+                    ->required()
+                    ->acceptedFileTypes(['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/mpeg'])
+                    ->panelLayout('grid')
             ]);
     }
 
@@ -209,7 +219,10 @@ class AnimalResource extends Resource
     public static function getRelations() : array
     {
         return [
-            //
+            RelationManagers\VaccinationsRelationManager::class,
+            RelationManagers\AdoptedRelationManager::class,
+            RelationManagers\AdoptableRelationManager::class,
+            RelationManagers\AdoptionRequestsRelationManager::class,
         ];
     }
 

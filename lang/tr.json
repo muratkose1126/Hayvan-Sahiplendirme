@@ -84,8 +84,11 @@
     "No": "Hayır",
     "Month": "Ay",
     "Images": "Resimler",
+    "Videos": "Videolar",
     "Showing": "Gösteriliyor",
     "to": "-",
     "of": "/",
-    "results": "sonuç"
+    "results": "sonuç",
+
+    "Publish":"Yayın"
 }

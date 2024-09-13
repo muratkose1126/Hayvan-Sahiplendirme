@@ -18,6 +18,12 @@
                     <x-nav-link :href="route('pets')" :active="request()->routeIs('pets')" wire:navigate>
                         {{ __('Evcil Hayvanlar') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('about')" :active="request()->routeIs('about')" wire:navigate>
+                        {{ __('Hakkımızda') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')" wire:navigate>
+                        {{ __('İletişim') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -42,8 +48,12 @@
             <x-responsive-nav-link :href="route('pets')" :active="request()->routeIs('pets')" wire:navigate>
                 {{ __('Evcil Hayvanlar') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')" wire:navigate>
+                {{ __('Hakkımızda') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact')" wire:navigate>
+                {{ __('İletişim') }}
+            </x-responsive-nav-link>
         </div>
     </div>
 </nav>
-
-

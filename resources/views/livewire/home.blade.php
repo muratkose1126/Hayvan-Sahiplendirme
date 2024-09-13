@@ -115,11 +115,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="mt-32 text-center">
-            <a href="#" class="inline-block bg-white text-indigo-600 font-bold text-3xl px-12 py-6 rounded-full hover:bg-indigo-100 transition transform hover:scale-110 hover:shadow-2xl">
-                Hemen Sahiplenin!
-            </a>
-        </div>
     </div>
 </div>

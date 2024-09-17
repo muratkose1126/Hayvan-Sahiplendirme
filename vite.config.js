@@ -16,7 +16,7 @@ export default defineConfig({
         port: 3000,
 
         hmr: {
-            host: "sahiplendirme.h.com",
+            host: "sahiplen.m.com",
         },
     }
 });

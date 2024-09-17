@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('adoptables', function (Blueprint $table) {
             $table->id();
             $table->foreignId('animal_id')->constrained()->cascadeOnDelete();
-            $table->boolean('is_published');
             $table->date('publish_date');
             $table->date('expiration_date')->nullable();
             $table->timestamps();

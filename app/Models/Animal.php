@@ -27,7 +27,6 @@ class Animal extends Model implements HasMedia
         "color",
         "age",
         "gender",
-        "status",
         "desexed",
         "microchip_number",
         "ear_tag_number",
@@ -37,7 +36,6 @@ class Animal extends Model implements HasMedia
     protected $casts = [
         'age' => 'array',
         'gender' => GenderType::class,
-        'status' => AnimalStatus::class,
     ];
 
     public function species()
@@ -70,6 +68,56 @@ class Animal extends Model implements HasMedia
         return $this->hasOne(Adopted::class);
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+
+    /**
+     * Get status
+     *
+     * @return AnimalStatus
+     */
+    public function getStatusAttribute():AnimalStatus
+    {
+        $adoptable = $this->adoptable;
+        $adoptionRequests = $this->adoptionRequests;
+        $adopted = $this->adopted;
+
+        if ($adopted) {
+            return AnimalStatus::Adopted;
+        }
+
+        if ($adoptable && $adoptable->publish_date <= now() && ($adoptable->expiration_date >= now() || $adoptable->expiration_date === null)) {
+            if ($adoptionRequests->isNotEmpty()) {
+                $latestRequest = $adoptionRequests->last();
+                if ($latestRequest->status == 'new') {
+                    return AnimalStatus::Pending;
+                } elseif ($latestRequest->status == 'pending') {
+                    return AnimalStatus::Pending;
+                } elseif ($latestRequest->status == 'completed') {
+                    return AnimalStatus::Adopted;
+                } elseif ($latestRequest->status == 'rejected') {
+                    return AnimalStatus::Published;
+                }
+            }
+            return AnimalStatus::Published;
+        }
+
+        if ($adoptable && ($adoptable->publish_date > now() || $adoptable->expiration_date < now())) {
+            if ($adoptable->expiration_date < now()) {
+                return AnimalStatus::Expired;
+            }
+            return AnimalStatus::New;
+        }
+
+        if ($adoptable && $adoptable->publish_date < now() && $adoptable->expiration_date < now()) {
+            return AnimalStatus::Expired;
+        }
+
+        return AnimalStatus::New;
+    }
     /**
      * Get the ageString attribute.
      *

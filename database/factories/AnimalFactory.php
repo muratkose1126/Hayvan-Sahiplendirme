@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\AnimalAgeType;
 use App\Enums\AnimalStatus;
 use App\Enums\GenderType;
 use App\Models\Breed;
@@ -29,9 +30,8 @@ class AnimalFactory extends Factory
             "species_id" => $spe ?? Species::factory(),
             "breed_id" => $breed ?? Breed::factory(),
             "color" => fake()->colorName(),
-            "age" => fake()->randomDigitNotZero(),
+            "age" => ["min"=> fake()->randomDigitNotNull(),"max"=>fake()->randomDigit(),"unit"=>fake()->randomElement(AnimalAgeType::cases())],
             "gender" => fake()->randomElement(GenderType::cases()),
-            "status" => fake()->randomElement(AnimalStatus::cases()),
             "desexed" => fake()->boolean(),
             "microchip_number" => fake()->ean13(),
             "ear_tag_number" => fake()->ean8(),

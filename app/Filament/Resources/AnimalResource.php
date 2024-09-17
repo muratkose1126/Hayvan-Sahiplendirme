@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AnimalAgeType;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Animal;
@@ -52,30 +53,26 @@ class AnimalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Forms\Components\Select::make('species_id')
-                    ->relationship('species', 'name')
-                    ->required()
+                Forms\Components\Fieldset::make()
+                    ->schema([
+
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->translateLabel(),
+                        Forms\Components\TextInput::make('microchip_number')
+                            ->required()
+                            ->maxLength(255)
+                            ->translateLabel(),
+                        Forms\Components\TextInput::make('ear_tag_number')
+                            ->required()
+                            ->maxLength(255)
+                            ->translateLabel(),
+                    ])
+                    ->columns(3)
+                    ->columnSpan(1),
+                    Forms\Components\Fieldset::make()
                     ->translateLabel()
-                    ->reactive()
-                    ->native(false)
-                    ->afterStateUpdated(fn (callable $set) => $set('breed_id', null)),
-                Forms\Components\Select::make('breed_id')
-                    ->relationship('breed', 'name', fn (Builder $query, callable $get) =>
-                        $query->where('species_id', $get('species_id'))
-                    )
-                    ->required()
-                    ->translateLabel()
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\Select::make('gender')
-                    ->options(GenderType::class)
-                    ->required()
-                    ->translateLabel(),
-                Forms\Components\Group::make()
                     ->schema([
                         Forms\Components\TextInput::make('age.min')
                             ->required()
@@ -85,64 +82,85 @@ class AnimalResource extends Resource
                             ->numeric()
                             ->label(__('Age max')),
                         Forms\Components\Select::make('age.unit')
-                            ->options([
-                                'age' => __('Age'),
-                                'monthly' => __('Monthly'),
-                            ])
+                            ->options(AnimalAgeType::class)
                             ->required()
                             ->native(false)
                             ->label(__('Age unit')),
                     ])
                     ->columns(3)
                     ->columnSpan(1),
-                Forms\Components\TextInput::make('color')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Forms\Components\Select::make('status')
-                    ->options(AnimalStatus::class)
-                    ->required()
-                    ->translateLabel(),
-                Forms\Components\Radio::make('desexed')
-                    ->options([
-                        1 => __('Yes'),
-                        0 => __('No'),
+                Forms\Components\Fieldset::make()
+                    ->schema([
+
+                        Forms\Components\Select::make('species_id')
+                            ->relationship('species', 'name')
+                            ->required()
+                            ->translateLabel()
+                            ->reactive()
+                            ->native(false)
+                            ->afterStateUpdated(fn (callable $set) => $set('breed_id', null)),
+                        Forms\Components\Select::make('breed_id')
+                            ->relationship('breed', 'name', fn (Builder $query, callable $get) =>
+                                $query->where('species_id', $get('species_id'))
+                            )
+                            ->required()
+                            ->translateLabel()
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Select::make('gender')
+                            ->options(GenderType::class)
+                            ->required()
+                            ->translateLabel(),
+                        Forms\Components\TextInput::make('color')
+                            ->required()
+                            ->maxLength(255)
+                            ->translateLabel(),
+                        Forms\Components\Radio::make('desexed')
+                            ->options([
+                                1 => __('Yes'),
+                                0 => __('No'),
+                            ])
+                            ->required()
+                            ->inline()
+                            ->inlineLabel(false)
+                            ->translateLabel(),
+                    ])->columns(5),
+
+
+                Forms\Components\Fieldset::make()
+                    ->schema([
+
+                        Forms\Components\Select::make('location_id')
+                            ->relationship('location', 'name')
+                            ->translateLabel(),
+
+                        Forms\Components\RichEditor::make('description')
+                            ->required()
+                            ->disableToolbarButtons(["attachFiles"])
+                            ->columnSpanFull()
+                            ->translateLabel(),
+                        SpatieMediaLibraryFileUpload::make('images')
+                            ->collection('animal_image')
+                            ->translateLabel()
+                            ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/heic'])
+                            ->columnSpan(2)
+                            ->panelLayout('grid'),
+
+                        SpatieMediaLibraryFileUpload::make('videos')
+                            ->collection('animal_video')
+                            ->translateLabel()
+                            ->multiple()
+                            ->acceptedFileTypes(['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/mpeg'])
+                            ->columnSpan(2)
+                            ->panelLayout('grid')
                     ])
-                    ->required()
-                    ->inline()
-                    ->inlineLabel(false)
-                    ->translateLabel(),
-                Forms\Components\TextInput::make('microchip_number')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Forms\Components\TextInput::make('ear_tag_number')
-                    ->required()
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Forms\Components\Textarea::make('description')
-                    ->required()
+                    ->columns(4)
                     ->columnSpanFull()
-                    ->translateLabel(),
-
-                SpatieMediaLibraryFileUpload::make('images')
-                    ->collection('animal_image')
-                    ->translateLabel()
-                    ->multiple()
-                    ->required()
-                    ->reorderable()
-                    ->appendFiles()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/heic'])
-                    ->panelLayout('grid'),
-
-                SpatieMediaLibraryFileUpload::make('videos')
-                    ->collection('animal_video')
-                    ->translateLabel()
-                    ->multiple()
-                    ->required()
-                    ->acceptedFileTypes(['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/mpeg'])
-                    ->panelLayout('grid')
-            ]);
+            ])
+        ;
     }
 
     public static function table(Table $table) : Table
@@ -184,6 +202,9 @@ class AnimalResource extends Resource
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('ear_tag_number')
                     ->searchable()
+                    ->translateLabel(),
+                Tables\Columns\TextColumn::make('location.name')
+                    ->sortable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -14,7 +14,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 
 class AdoptionRequestsRelationManager extends RelationManager
 {
-    protected static function getRecordLabel(): ?string
+    protected static function getRecordLabel() : ?string
     {
         return __("AdoptionRequests");
     }
@@ -26,7 +26,7 @@ class AdoptionRequestsRelationManager extends RelationManager
 
     protected static string $relationship = 'adoptionRequests';
 
-    public function form(Form $form): Form
+    public function form(Form $form) : Form
     {
         return $form
             ->schema([
@@ -36,31 +36,22 @@ class AdoptionRequestsRelationManager extends RelationManager
             ]);
     }
 
-    public function table(Table $table): Table
+    public function table(Table $table) : Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('adopter.fullname')
-                ->searchable()
-                ->sortable()
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('animal.name')
-                ->searchable()
-                ->sortable()
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('status')
-                ->sortable()
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->translateLabel(),            ])
+                    ->searchable()
+                    ->sortable()
+                    ->translateLabel(),
+                Tables\Columns\TextColumn::make('animal.name')
+                    ->searchable()
+                    ->sortable()
+                    ->translateLabel(),
+                Tables\Columns\TextColumn::make('status')
+                    ->sortable()
+                    ->translateLabel(),
+            ])
             ->filters([
                 //
             ])
@@ -69,28 +60,28 @@ class AdoptionRequestsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->visible(fn (Model $record) => $record->status == AdoptionStatus::New ),
-            Tables\Actions\Action::make('işlemeAl')
-                ->visible(fn (Model $record) => $record->status == AdoptionStatus::New )
-                ->action(function (Model $record) {
-                    $record->status = AdoptionStatus::Pending;
-                    $record->save();
-                })
-                ->icon('heroicon-o-document-text'),
-            Tables\Actions\Action::make('onayla')
-                ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
-                ->action(function (Model $record) {
-                    $record->status = AdoptionStatus::Complete;
-                    $record->save();
-                })
-                ->icon('heroicon-o-check'),
-            Tables\Actions\Action::make('reddet')
-                ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
-                ->action(function (Model $record) {
-                    $record->status = AdoptionStatus::Reject;
-                    $record->save();
-                })
-                ->icon('heroicon-o-x-mark'),
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::New ),
+                Tables\Actions\Action::make('işlemeAl')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::New )
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Pending;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-document-text'),
+                Tables\Actions\Action::make('onayla')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Complete;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-check'),
+                Tables\Actions\Action::make('reddet')
+                    ->visible(fn (Model $record) => $record->status == AdoptionStatus::Pending)
+                    ->action(function (Model $record) {
+                        $record->status = AdoptionStatus::Reject;
+                        $record->save();
+                    })
+                    ->icon('heroicon-o-x-mark'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

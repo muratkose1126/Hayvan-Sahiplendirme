@@ -17,7 +17,6 @@ class Adoptable extends Model
      */
     protected $fillable = [
         "animal_id",
-        "is_published",
         "publish_date",
         "expiration_date",
     ];
@@ -28,7 +27,6 @@ class Adoptable extends Model
      * @var array
      */
     protected $casts = [
-        'is_published' => 'boolean',
     ];
 
     public function animal()

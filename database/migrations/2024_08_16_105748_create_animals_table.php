@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('species_id')->constrained()->cascadeOnDelete();
             $table->foreignId('breed_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
             $table->string('color');
             $table->json('age');
             $table->string('gender');
-            $table->string('status');
             $table->boolean('desexed');
             $table->string('microchip_number');
             $table->string('ear_tag_number');

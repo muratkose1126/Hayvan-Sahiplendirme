@@ -9,13 +9,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "althinect/filament-spatie-roles-permissions": "^2.2",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
-        "spatie/laravel-medialibrary": "^11.9"
+        "spatie/laravel-medialibrary": "^11.9",
+        "spatie/laravel-permission": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",
